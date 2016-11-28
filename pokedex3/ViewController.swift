@@ -12,14 +12,49 @@ class ViewController: UIViewController, UICollectionViewDelegate, UICollectionVi
     
     //IBOulets
     @IBOutlet weak var collection: UICollectionView!
-
+    
+    // our array of Pokemon from CSV that we load into UI Collection View
+    var pokemon = [Pokemon]()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
 
         collection.dataSource = self
         collection.delegate = self
         
+        // parse the csv and build up our array
+        parsePokemonCSV()
+        
     }
+    
+    //  a function to parse the pokemon.csv and put it into the pokemon array
+    func parsePokemonCSV() {
+        
+        // the 'resource' is the file called pokemon.csv
+        let path = Bundle.main.path(forResource: "pokemon", ofType: "csv")!
+        
+        do {
+            // use the parser in CSV.swift file
+            let csv = try CSV(contentsOfURL: path)
+            let rows = csv.rows
+            print(rows)
+            
+            for row in rows {
+                let pokeId = Int(row["id"]!)!
+                let name = row["identifier"]!
+                
+                // create a Pokemon obj with data from current CSV row
+                let poke = Pokemon(name: name, pokedexId: pokeId)
+                // add our new obj to the array
+                pokemon.append(poke)
+            }
+        
+        } catch let err as NSError {
+            print(err.debugDescription)
+        }
+        
+    }
+    
     
     // implement methods/funcs of the above protocols
     
@@ -29,10 +64,10 @@ class ViewController: UIViewController, UICollectionViewDelegate, UICollectionVi
             
             // create a pokemon object - default name for now, id is its position
             // in the collectionView
-            let pokemon = Pokemon(name: "Pokemon", pokedexId: indexPath.row)
+            let poke = pokemon[indexPath.row]
             
             // set the image and name of the cell from the passed in pokemon obj
-            cell.configureCell(pokemon)
+            cell.configureCell(poke)
             
             return cell
             
@@ -50,7 +85,7 @@ class ViewController: UIViewController, UICollectionViewDelegate, UICollectionVi
     // sets the number of items in the section
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         
-        return 30
+        return pokemon.count
     }
 
     // number of sections in the collection view
