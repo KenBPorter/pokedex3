@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import AVFoundation
 
 class ViewController: UIViewController, UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
     
@@ -16,6 +17,10 @@ class ViewController: UIViewController, UICollectionViewDelegate, UICollectionVi
     // our array of Pokemon from CSV that we load into UI Collection View
     var pokemon = [Pokemon]()
     
+    // the audio player provided by AVFoundation
+    var musicPlayer: AVAudioPlayer!
+    
+    
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -24,6 +29,28 @@ class ViewController: UIViewController, UICollectionViewDelegate, UICollectionVi
         
         // parse the csv and build up our array
         parsePokemonCSV()
+        
+        // start the music!
+        initAudio()
+        
+    }
+    
+    // get the audio ready
+    func initAudio() {
+        
+        let path = Bundle.main.path(forResource: "music", ofType: "mp3")!
+        
+        do {
+            musicPlayer = try AVAudioPlayer(contentsOf: URL(string: path)!)
+            musicPlayer.prepareToPlay()
+            musicPlayer.numberOfLoops = -1
+            musicPlayer.play()
+            
+        } catch let err as NSError {
+            print(err.debugDescription)
+        }
+        
+        
         
     }
     
@@ -99,53 +126,20 @@ class ViewController: UIViewController, UICollectionViewDelegate, UICollectionVi
         return CGSize(width: 105, height: 105)
     }
     
+    // IBAction Outlets
+    
+    @IBAction func musicBtnPressed(_ sender: UIButton) {
+        
+        if musicPlayer.isPlaying {
+            musicPlayer.pause()
+            sender.alpha = 0.2
+            
+        } else {
+            musicPlayer.play()
+            sender.alpha = 1.0
+        }
+        
+    }
+    
     
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
