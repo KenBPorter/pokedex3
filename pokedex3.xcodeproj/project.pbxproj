@@ -12,6 +12,7 @@
 		E3B883491DECB31100CE937F /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = E3B883471DECB31100CE937F /* Main.storyboard */; };
 		E3B8834B1DECB31100CE937F /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = E3B8834A1DECB31100CE937F /* Assets.xcassets */; };
 		E3B8834E1DECB31100CE937F /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = E3B8834C1DECB31100CE937F /* LaunchScreen.storyboard */; };
+		E3B883561DECB69300CE937F /* pokemon.csv in Resources */ = {isa = PBXBuildFile; fileRef = E3B883551DECB69300CE937F /* pokemon.csv */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -22,6 +23,7 @@
 		E3B8834A1DECB31100CE937F /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		E3B8834D1DECB31100CE937F /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		E3B8834F1DECB31100CE937F /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		E3B883551DECB69300CE937F /* pokemon.csv */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = pokemon.csv; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -58,6 +60,7 @@
 				E3B883451DECB31100CE937F /* ViewController.swift */,
 				E3B883471DECB31100CE937F /* Main.storyboard */,
 				E3B8834A1DECB31100CE937F /* Assets.xcassets */,
+				E3B883551DECB69300CE937F /* pokemon.csv */,
 				E3B8834C1DECB31100CE937F /* LaunchScreen.storyboard */,
 				E3B8834F1DECB31100CE937F /* Info.plist */,
 			);
@@ -126,6 +129,7 @@
 			files = (
 				E3B8834E1DECB31100CE937F /* LaunchScreen.storyboard in Resources */,
 				E3B8834B1DECB31100CE937F /* Assets.xcassets in Resources */,
+				E3B883561DECB69300CE937F /* pokemon.csv in Resources */,
 				E3B883491DECB31100CE937F /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
