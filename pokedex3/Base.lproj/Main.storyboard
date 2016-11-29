@@ -429,7 +429,18 @@
                         </constraints>
                     </view>
                     <connections>
+                        <outlet property="baseAttackLbl" destination="3z4-1J-6Qy" id="Yls-69-1oI"/>
+                        <outlet property="currentEvoImage" destination="lhU-nO-HNM" id="ZDf-iB-kvZ"/>
+                        <outlet property="defenseLbl" destination="iUU-n1-zq4" id="XoI-1U-rMF"/>
+                        <outlet property="descriptionLbl" destination="7cm-nI-B52" id="PNg-WZ-Jc0"/>
+                        <outlet property="evoLbl" destination="JYB-YP-hIa" id="qr9-bq-OvO"/>
+                        <outlet property="heightLbl" destination="LiG-S8-HHp" id="N00-1C-XaF"/>
+                        <outlet property="mainImg" destination="SyE-5t-2O9" id="Txd-t6-3xc"/>
                         <outlet property="nameLabel" destination="tgP-e2-v8d" id="qq1-kU-ehN"/>
+                        <outlet property="nextEvoImage" destination="g1d-YQ-k2R" id="d44-sS-7DT"/>
+                        <outlet property="pokedexLbl" destination="LAu-3o-ajN" id="FNE-yv-B6F"/>
+                        <outlet property="typeLbl" destination="SJO-9L-B4m" id="VWM-Zj-G6x"/>
+                        <outlet property="weightLbl" destination="5ze-NS-qVZ" id="gyU-7b-GJi"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="g6h-Ip-HPa" userLabel="First Responder" sceneMemberID="firstResponder"/>
