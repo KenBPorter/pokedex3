@@ -9,13 +9,20 @@
 import UIKit
 import AVFoundation
 
-class ViewController: UIViewController, UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
+class ViewController: UIViewController, UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout, UISearchBarDelegate {
     
-    //IBOulets
+    //  @IBOulets  //
     @IBOutlet weak var collection: UICollectionView!
+    @IBOutlet weak var searchBar: UISearchBar!
+    
     
     // our array of Pokemon from CSV that we load into UI Collection View
     var pokemon = [Pokemon]()
+    
+    // vars used by searchbar ( text did change ) func
+    var filteredPokemon = [Pokemon]()
+    var inSearchMode = false
+    
     
     // the audio player provided by AVFoundation
     var musicPlayer: AVAudioPlayer!
@@ -26,12 +33,20 @@ class ViewController: UIViewController, UICollectionViewDelegate, UICollectionVi
 
         collection.dataSource = self
         collection.delegate = self
+        searchBar.delegate = self
+        
+        // changes the text of the "return" key on the keyboard 
+        // associated with the search bar
+        searchBar.returnKeyType = UIReturnKeyType.done
+        
+        // Show CANCEL which is not the X in the text entry field
+        searchBar.showsCancelButton = true
         
         // parse the csv and build up our array
         parsePokemonCSV()
         
         // start the music!
-        initAudio()
+//        initAudio()
         
     }
     
@@ -64,7 +79,7 @@ class ViewController: UIViewController, UICollectionViewDelegate, UICollectionVi
             // use the parser in CSV.swift file
             let csv = try CSV(contentsOfURL: path)
             let rows = csv.rows
-            print(rows)
+// debug            print(rows)
             
             for row in rows {
                 let pokeId = Int(row["id"]!)!
@@ -83,15 +98,23 @@ class ViewController: UIViewController, UICollectionViewDelegate, UICollectionVi
     }
     
     
-    // implement methods/funcs of the above protocols
+    // implement methods/funcs of the above protocols //
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         // the dequeue stuff allows for only a subset of the 700+ pokemons to be loaded at once
         if let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "PokeCell", for: indexPath) as? PokeCell {
             
-            // create a pokemon object - default name for now, id is its position
-            // in the collectionView
-            let poke = pokemon[indexPath.row]
+            // create a pokemon object but not initialized.
+            let poke: Pokemon!
+            
+            // depending upon our searchbar status.....
+            if inSearchMode {
+                poke = filteredPokemon[indexPath.row]
+            } else {
+                poke = pokemon[indexPath.row]
+            }
+            
+            cell.configureCell(poke)
             
             // set the image and name of the cell from the passed in pokemon obj
             cell.configureCell(poke)
@@ -111,8 +134,15 @@ class ViewController: UIViewController, UICollectionViewDelegate, UICollectionVi
     
     // sets the number of items in the section
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        var pcount: Int!
         
-        return pokemon.count
+        if inSearchMode {
+            pcount = filteredPokemon.count
+        } else {
+            pcount = pokemon.count
+        }
+        
+        return pcount
     }
 
     // number of sections in the collection view
@@ -126,7 +156,7 @@ class ViewController: UIViewController, UICollectionViewDelegate, UICollectionVi
         return CGSize(width: 105, height: 105)
     }
     
-    // IBAction Outlets
+    // @IBAction Outlets  //
     
     @IBAction func musicBtnPressed(_ sender: UIButton) {
         
@@ -142,4 +172,72 @@ class ViewController: UIViewController, UICollectionViewDelegate, UICollectionVi
     }
     
     
+    // search bar delegate methods/functions  //
+    
+    func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
+        view.endEditing(true)  // hides the keyboard
+    }
+    
+    func searchBarCancelButtonClicked(_ searchBar: UISearchBar) {
+        searchBar.text = ""
+        inSearchMode = false
+        collection.reloadData()
+        view.endEditing(true)  // hides the keyboard
+    }
+    
+    // whenever we make a keystroke in the search bar, this func will be called
+    func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
+        
+        if searchBar.text == nil || searchBar.text == "" {
+            inSearchMode = false
+            // if nothing or if we deleted searchbar, revert to original state
+            collection.reloadData()
+            view.endEditing(true)  // hides the keyboard
+        
+        } else {
+            inSearchMode = true
+            
+            // build a suggestion list for the search bar
+            let lower = searchBar.text!.lowercased()
+            
+            // filter cvs array into filtered arrary
+            filteredPokemon = pokemon.filter( {$0.name.range(of: lower) != nil} )
+            collection.reloadData()
+        }
+        
+    }
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
