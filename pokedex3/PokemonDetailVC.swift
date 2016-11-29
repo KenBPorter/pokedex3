@@ -40,8 +40,23 @@ class PokemonDetailVC: UIViewController {
         
         nameLabel.text = pokemon.name
         
+        pokemon.downloadPokemonDetail {
+            print("Did arrive in the Pokemon detail VC download...")
+            
+            // whatever we write here will only be executed
+            // afer the network call is completd
+            self.updateUI()
+        }
     }
 
+    func updateUI() {
+        baseAttackLbl.text = pokemon.attack
+        defenseLbl.text = pokemon.defense
+        heightLbl.text = pokemon.height
+        weightLbl.text = pokemon.weight
+    }
+    
+    
     // @IB Actions //
 
     @IBAction func backButtonPressed(_ sender: UIButton) {
