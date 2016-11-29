@@ -127,8 +127,19 @@ class ViewController: UIViewController, UICollectionViewDelegate, UICollectionVi
         
     }
     
-    // when we tap on a cell
+    // when we tap on a cell call segue to detail VC
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        
+        var poke: Pokemon!
+        
+        // grab the poke that as touched/tapped/pressed
+        if inSearchMode {
+            poke = filteredPokemon[indexPath.row]
+        } else {
+            poke = pokemon[indexPath.row]
+        }
+        
+        performSegue(withIdentifier: "PokemonDetailVC", sender: poke)
         
     }
     
@@ -206,6 +217,33 @@ class ViewController: UIViewController, UICollectionViewDelegate, UICollectionVi
         }
         
     }
+    
+    // the segue method/functions //
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        
+        // if we are doing the details segue
+        if segue.identifier == "PokemonDetailVC" {
+            
+            // set the details VC as the destination VC
+            if let detailsVC = segue.destination as? PokemonDetailVC {
+                
+                // assign poke the value from this VC's sender obj (as Pokemon)
+                // then if successful, assign the var pokemon
+                // in the Details VC to the poke in this VC
+                if let poke = sender as? Pokemon {
+                    
+                    detailsVC.pokemon = poke
+                }
+            
+            }
+            
+        }
+        
+    }
+    
+    
+    
 }
 
 

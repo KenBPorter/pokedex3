@@ -6,6 +6,7 @@
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="11524"/>
+        <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <customFonts key="customFonts">
@@ -60,12 +61,12 @@
                                     <constraint firstAttribute="bottom" secondItem="X9J-By-6QF" secondAttribute="bottom" constant="8" id="tbI-VA-o45"/>
                                 </constraints>
                             </view>
-                            <searchBar contentMode="redraw" searchBarStyle="minimal" placeholder="Search Pokemon" translatesAutoresizingMaskIntoConstraints="NO" id="Tr4-pt-Mgm">
+                            <searchBar contentMode="redraw" searchBarStyle="minimal" placeholder="Search Pokemon" showsCancelButton="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Tr4-pt-Mgm">
                                 <rect key="frame" x="0.0" y="65" width="320" height="44"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="44" id="rGv-1F-Al1"/>
                                 </constraints>
-                                <textInputTraits key="textInputTraits"/>
+                                <textInputTraits key="textInputTraits" returnKeyType="done"/>
                             </searchBar>
                             <imageView userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="bg" translatesAutoresizingMaskIntoConstraints="NO" id="dFl-38-UTI">
                                 <rect key="frame" x="0.0" y="109" width="320" height="459"/>
@@ -145,11 +146,64 @@
                     <connections>
                         <outlet property="collection" destination="f2W-cs-ZfO" id="JmZ-ng-cI0"/>
                         <outlet property="searchBar" destination="Tr4-pt-Mgm" id="1hY-2r-Ujn"/>
+                        <segue destination="nIy-am-59b" kind="presentation" identifier="PokemonDetailVC" modalPresentationStyle="formSheet" modalTransitionStyle="partialCurl" id="Hx5-r7-GOT"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="138.75" y="135.21126760563379"/>
+        </scene>
+        <!--Pokemon DetailVC-->
+        <scene sceneID="M4x-x3-Bzx">
+            <objects>
+                <viewController id="nIy-am-59b" customClass="PokemonDetailVC" customModule="pokedex3" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="KjD-Ka-Uhv"/>
+                        <viewControllerLayoutGuide type="bottom" id="ng6-2Z-GJY"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="ek7-BL-gDP">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="l8l-fe-ZHE">
+                                <rect key="frame" x="16" y="28" width="46" height="30"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="46" id="jbe-1h-4FG"/>
+                                    <constraint firstAttribute="height" constant="30" id="uY1-RV-tre"/>
+                                </constraints>
+                                <state key="normal" title="Back">
+                                    <color key="titleColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                </state>
+                                <connections>
+                                    <action selector="backButtonPressed:" destination="nIy-am-59b" eventType="touchUpInside" id="n81-Z7-Lh7"/>
+                                </connections>
+                            </button>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="tgP-e2-v8d">
+                                <rect key="frame" x="95.5" y="274" width="130" height="20.5"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="20" id="06Y-GG-vkx"/>
+                                    <constraint firstAttribute="width" constant="130" id="gfj-VB-5Ms"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                        </subviews>
+                        <color key="backgroundColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
+                        <constraints>
+                            <constraint firstItem="l8l-fe-ZHE" firstAttribute="top" secondItem="KjD-Ka-Uhv" secondAttribute="bottom" constant="8" id="XJ9-VU-ItP"/>
+                            <constraint firstItem="tgP-e2-v8d" firstAttribute="centerX" secondItem="ek7-BL-gDP" secondAttribute="centerX" id="kHT-aF-DWC"/>
+                            <constraint firstItem="l8l-fe-ZHE" firstAttribute="leading" secondItem="ek7-BL-gDP" secondAttribute="leadingMargin" id="sxL-UU-OG0"/>
+                            <constraint firstItem="tgP-e2-v8d" firstAttribute="centerY" secondItem="ek7-BL-gDP" secondAttribute="centerY" id="w1a-Kc-voF"/>
+                        </constraints>
+                    </view>
+                    <connections>
+                        <outlet property="nameLabel" destination="tgP-e2-v8d" id="qq1-kU-ehN"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="g6h-Ip-HPa" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="934" y="135"/>
         </scene>
     </scenes>
     <resources>
