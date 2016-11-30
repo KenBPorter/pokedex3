@@ -38,11 +38,20 @@ class PokemonDetailVC: UIViewController {
         
         super.viewDidLoad()
         
-        nameLabel.text = pokemon.name
+        nameLabel.text = pokemon.name.capitalized
+        
+        // set up main image on top of detail scene
+        let img = UIImage(named: "\(pokemon.pokedexId)")
+        mainImg.image = img
+        
+        pokedexLbl.text = "\(pokemon.pokedexId)"
+        
+        // setup images at bottom of the detail scene
+        currentEvoImage.image = img
+        
+        
         
         pokemon.downloadPokemonDetail {
-            print("Did arrive in the Pokemon detail VC download...")
-            
             // whatever we write here will only be executed
             // afer the network call is completd
             self.updateUI()
@@ -54,6 +63,8 @@ class PokemonDetailVC: UIViewController {
         defenseLbl.text = pokemon.defense
         heightLbl.text = pokemon.height
         weightLbl.text = pokemon.weight
+        typeLbl.text = pokemon.type
+        
     }
     
     

@@ -118,18 +118,60 @@ class Pokemon {
                     self._defense = "\(defense)"
                 }
                 
-                print("weight: \(self._weight!)")
-                print("height: \(self._height!)")
-                print("attack: \(self._attack!)")
-                print("defense: \(self._defense!)")
                 
+////////////////////////////
+// solution from lecture
+//                    // grab the first dict in the types array of dicts and access the name attribute
+//                    if let name = types[0]["name"] {
+//                        self._type = name.capitalized
+//                    }
+//
+//                    // when there are more than one type in the types array
+//                    if types.count > 1 {
+//                        for x in 1..<types.count {
+//
+//                            if let name = types[x]["name"] {
+//                                self._type! += "/\(name.capitalized)"
+//                            }
+//                        }
+//                    }
+/////////////////////////////
+                
+                
+                // built an array of the Type dics, the cycle thru the array grabbing the
+                // NAME attributes to build a string of names.  
+                
+                // fYI: if let x = y as? somethere where types.count > 0 is what the comma means
+                if let typesArray = dict["types"] as? [Dictionary<String,String>] , typesArray.count > 0 {
+                    
+                    var index = 0
+                    var namesList = ""
+                    
+                    for type in typesArray {
+                        
+                        if let name = type["name"] {
+                            // build the string of names with a / delimiter
+                            if index > 0 {
+                                namesList += "/"
+                            }
+                            namesList += name.capitalized
+                            index += 1
+                        }
+                    }
+                    self._type = namesList
+                    
+                    print(self._type)
+                    
+                    
+                } else {
+                    self._type = ""  // the if let types above failed
+                }
                 
             }
             
             // let the funciton know JSON data retrieval has completed 
             // so the UI triggers fire and update stuff (yes I'm tired 😀)
             completed()
-         
             
         }
         
@@ -137,6 +179,27 @@ class Pokemon {
     
     
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
