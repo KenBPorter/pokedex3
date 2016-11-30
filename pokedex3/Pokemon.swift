@@ -22,6 +22,10 @@ class Pokemon {
     private var _attack: String!
     private var _nextEvolutionTxt: String!
     
+    private var _nextEvolutionName: String!
+    private var _nextEvolutionId: String!
+    private var _nextEvolutionLevel: String!
+    
     private var _pokemonURL: String!
     
     // the getters ** excellent data hiding and data protection pratice!! **
@@ -81,6 +85,30 @@ class Pokemon {
         }
         return _nextEvolutionTxt
     }
+    
+    var nextEvolutionName: String {
+        if _nextEvolutionName == nil {
+            _nextEvolutionName = ""
+        }
+        return _nextEvolutionName
+    }
+    
+    var nextEvolutionId: String {
+        if _nextEvolutionId == nil {
+            _nextEvolutionId = ""
+        }
+        return _nextEvolutionId
+    }
+    
+    var nextEvolutionLevel: String {
+        if _nextEvolutionLevel == nil {
+            _nextEvolutionLevel = ""
+        }
+        return _nextEvolutionLevel
+    }
+    
+    
+    
     
 
     // initializer
@@ -160,14 +188,80 @@ class Pokemon {
                     }
                     self._type = namesList
                     
-                    print(self._type)
-                    
-                    
                 } else {
                     self._type = ""  // the if let types above failed
                 }
                 
+                
+                // Now get the descriptions which are an array of dictionaries
+                // same format as the typesArray above
+                if let descArray = dict["descriptions"] as? [Dictionary<String,String>] , descArray.count > 0 {
+                    
+                    if let url = descArray[0]["resource_uri"] {
+                        
+                        // grab the url response
+                        let descURL = "\(URL_BASE)\(url)"
+                        
+                        Alamofire.request(descURL).responseJSON { (response) in
+                            
+                            if let descDict = response.result.value as? Dictionary<String, AnyObject> {
+                                
+                                if let description = descDict["description"] as? String {
+                                   
+                                    let newDescription = description.replacingOccurrences(of: "POKMON", with: "Pokemon")
+                                    self._description = newDescription
+                                }
+                            }
+                         
+                            // the compelete for the Alamofire.request(descURL).responseJSON
+                            completed()
+                        }
+                    }
+                } else { // the else of if let descArray = .....
+                    self._description = ""
+                } // end of the if let descArrary = dict....
+                
+                
+                
+                
+                // Now get the evolutions which are an array of dictionaries
+                // same format as the typesArray above
+                if let evolutionsArray = dict["evolutions"] as? [Dictionary<String,AnyObject>] , evolutionsArray.count > 0 {
+                    
+                    if let nextEvolution = evolutionsArray[0]["to"] as? String {
+                        
+                        // need to exclude evolutions that include mega b/c they're not in our csv
+                        if nextEvolution.range(of: "mega") == nil {
+                            self._nextEvolutionName = nextEvolution
+                            
+                            // use the uri to extract ID vs calling another web requst
+                            if let uri = evolutionsArray[0]["resource_uri"] as? String {
+                                let newStr = uri.replacingOccurrences(of: "/api/v1/pokemon/", with: "")
+                                let nextEvoID = newStr.replacingOccurrences(of: "/", with: "")
+                                
+                                self._nextEvolutionId = nextEvoID
+                             
+                                if let lvlExist = evolutionsArray[0]["level"] {
+                                    
+                                    if let lvl = lvlExist as? Int {
+                                        self._nextEvolutionLevel = "\(lvl)"
+                                    }
+                                    
+                                } else {
+                                    self._nextEvolutionLevel = ""
+                                }
+                            }
+                        }
+                    }
+                    
+                }
+                
+                
+                
+                
             }
+            
+            // the compelete for the  Alamofire.request(_pokemonURL).responseJSON
             
             // let the funciton know JSON data retrieval has completed 
             // so the UI triggers fire and update stuff (yes I'm tired 😀)
@@ -176,8 +270,7 @@ class Pokemon {
         }
         
     }
-    
-    
+
 }
 
 
